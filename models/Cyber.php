@@ -12,7 +12,9 @@ use Yii;
  * @property string $tgl_lahir
  * @property string $jekel
  * @property int $angkatan
- * @property string $divisi
+ * @property int $id_divisi
+ *
+ * @property Divisi $divisi
  */
 class Cyber extends \yii\db\ActiveRecord
 {
@@ -30,12 +32,12 @@ class Cyber extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama', 'tgl_lahir', 'jekel', 'angkatan', 'divisi'], 'required'],
+            [['nama', 'tgl_lahir', 'jekel', 'angkatan', 'id_divisi'], 'required'],
             [['tgl_lahir'], 'safe'],
-            [['angkatan'], 'integer'],
+            [['angkatan', 'id_divisi'], 'integer'],
             [['nama'], 'string', 'max' => 50],
             [['jekel'], 'string', 'max' => 5],
-            [['divisi'], 'string', 'max' => 20],
+            [['id_divisi'], 'exist', 'skipOnError' => true, 'targetClass' => Divisi::className(), 'targetAttribute' => ['id_divisi' => 'id']],
         ];
     }
 
@@ -50,7 +52,17 @@ class Cyber extends \yii\db\ActiveRecord
             'tgl_lahir' => 'Tgl Lahir',
             'jekel' => 'Jekel',
             'angkatan' => 'Angkatan',
-            'divisi' => 'Divisi',
+            'id_divisi' => 'Id Divisi',
         ];
+    }
+
+    /**
+     * Gets query for [[Divisi]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDivisi()
+    {
+        return $this->hasOne(Divisi::className(), ['id' => 'id_divisi']);
     }
 }

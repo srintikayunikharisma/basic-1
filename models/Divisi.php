@@ -9,6 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $nama_divisi
+ *
+ * @property Cyber[] $cybers
  */
 class Divisi extends \yii\db\ActiveRecord
 {
@@ -40,5 +42,15 @@ class Divisi extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nama_divisi' => 'Nama Divisi',
         ];
+    }
+
+    /**
+     * Gets query for [[Cybers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCybers()
+    {
+        return $this->hasMany(Cyber::className(), ['id_divisi' => 'id']);
     }
 }

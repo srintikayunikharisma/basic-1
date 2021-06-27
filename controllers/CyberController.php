@@ -3,14 +3,14 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\cyber;
+use app\models\Cyber;
 use app\models\CyberSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CyberController implements the CRUD actions for cyber model.
+ * CyberController implements the CRUD actions for Cyber model.
  */
 class CyberController extends Controller
 {
@@ -30,7 +30,7 @@ class CyberController extends Controller
     }
 
     /**
-     * Lists all cyber models.
+     * Lists all Cyber models.
      * @return mixed
      */
     public function actionIndex()
@@ -45,7 +45,7 @@ class CyberController extends Controller
     }
 
     /**
-     * Displays a single cyber model.
+     * Displays a single Cyber model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,28 +58,25 @@ class CyberController extends Controller
     }
 
     /**
-     * Creates a new cyber model.
+     * Creates a new Cyber model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new cyber();
+        $model = new Cyber();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->tgl_lahir = \Yii::$app->formatter->asDate($model->tgl_lahir, 'yyy-MM-dd');
-            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);
     }
 
-    
-
     /**
-     * Updates an existing cyber model.
+     * Updates an existing Cyber model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -88,10 +85,8 @@ class CyberController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->tgl_lahir = date('d-M-Y' , strtotime($model->tgl_lahir));
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->tgl_lahir = \Yii::$app->formatter->asDate($model->tgl_lahir, 'yyy-MM-dd');
-            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -101,7 +96,7 @@ class CyberController extends Controller
     }
 
     /**
-     * Deletes an existing cyber model.
+     * Deletes an existing Cyber model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -115,15 +110,15 @@ class CyberController extends Controller
     }
 
     /**
-     * Finds the cyber model based on its primary key value.
+     * Finds the Cyber model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return cyber the loaded model
+     * @return Cyber the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = cyber::findOne($id)) !== null) {
+        if (($model = Cyber::findOne($id)) !== null) {
             return $model;
         }
 

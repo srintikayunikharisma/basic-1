@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\cyber;
+use app\models\Cyber;
 
 /**
- * CyberSearch represents the model behind the search form of `app\models\cyber`.
+ * CyberSearch represents the model behind the search form of `app\models\Cyber`.
  */
-class CyberSearch extends cyber
+class CyberSearch extends Cyber
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class CyberSearch extends cyber
     public function rules()
     {
         return [
-            [['id', 'angkatan'], 'integer'],
-            [['nama', 'tgl_lahir', 'jekel', 'divisi'], 'safe'],
+            [['id', 'angkatan', 'id_divisi'], 'integer'],
+            [['nama', 'tgl_lahir', 'jekel'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class CyberSearch extends cyber
      */
     public function search($params)
     {
-        $query = cyber::find();
+        $query = Cyber::find();
 
         // add conditions that should always apply here
 
@@ -61,11 +61,11 @@ class CyberSearch extends cyber
             'id' => $this->id,
             'tgl_lahir' => $this->tgl_lahir,
             'angkatan' => $this->angkatan,
+            'id_divisi' => $this->id_divisi,
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'jekel', $this->jekel])
-            ->andFilterWhere(['like', 'divisi', $this->divisi]);
+            ->andFilterWhere(['like', 'jekel', $this->jekel]);
 
         return $dataProvider;
     }

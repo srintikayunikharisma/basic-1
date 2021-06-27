@@ -2,10 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\cyber */
+/* @var $model app\models\Cyber */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -15,22 +14,13 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'tgl_lahir')->widget(DatePicker::classname(),[
-        'options' => ['placeholder' => 'Pilih Tanggal...'],
-        'pluginOptions' => [
-            'autoclose'=>true,
-            'format' => 'dd-M-yyyy'
-         ]
-        ]);?>
+    <?= $form->field($model, 'tgl_lahir')->textInput() ?>
 
-    <?= $form->field($model, 'jekel')->dropDownList(
-        array('L'=> 'Laki-Laki','P'=> 'Perempuan'))->label('Jenis Kelamin') ?>
+    <?= $form->field($model, 'jekel')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'angkatan')->textInput() ?>
 
-    <?= $form->field($model, 'divisi')->dropDownList(
-        array('1'=> 'Programming','2'=> 'Multimedia','3'=> 'Networking'))->label('Divisi'); ?>
-
+    <?= $form->field($model, 'id_divisi')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

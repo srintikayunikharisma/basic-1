@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\cyber */
+/* @var $model app\models\Cyber */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Cybers', 'url' => ['index']];
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'tgl_lahir',
             'jekel',
             'angkatan',
-            'divisi',
+            'id_divisi',
         ],
     ]) ?>
 
