@@ -42,14 +42,3 @@ class Divisi extends \yii\db\ActiveRecord
         ];
     }
 }
-
-    /**
-     * Gets query for [[Cybers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCybers()
-    {
-        return $this->hasMany(Cyber::className(), ['id_jenis' => 'id']);
-    }
-}
