@@ -86,7 +86,10 @@ class CyberController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model->tgl_lahir = date('d-M-y', strtotime($model->tgl_lahir));
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->tgl_lahir = \Yii::$app->formatter->asDate($model->tgl_lahir, "yyyy-MM-dd");
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

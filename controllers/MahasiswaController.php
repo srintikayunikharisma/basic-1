@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Mahasiswa;
 use app\models\MahasiswaSearch;
+use app\models\Prodi;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -86,7 +87,10 @@ class MahasiswaController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model->tgl_lahir = date('d-M-y', strtotime($model->tgl_lahir));
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->tgl_lahir = \Yii::$app->formatter->asDate($model->tgl_lahir, "yyyy-MM-dd");
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -107,6 +111,22 @@ class MahasiswaController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSubcat()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $prodi = $parents[0];
+                $out = Prodi::getProdiList($prodi);
+
+                return ['output'=>$out,'selected'=>''];
+            }
+        }
+        return ['output'=>'','selected'=>''];
     }
 
     /**
