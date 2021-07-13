@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Bulan Mei 2021 pada 08.52
+-- Waktu pembuatan: 13 Jul 2021 pada 18.29
 -- Versi server: 10.4.18-MariaDB
 -- Versi PHP: 8.0.3
 
@@ -14,7 +14,6 @@ SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
@@ -79,6 +78,48 @@ INSERT INTO `country` (`code`, `name`, `population`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `cyber`
+--
+
+CREATE TABLE `cyber` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `tgl_lahir` date NOT NULL,
+  `jekel` char(5) NOT NULL,
+  `angkatan` int(11) NOT NULL,
+  `id_divisi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `cyber`
+--
+
+INSERT INTO `cyber` (`id`, `nama`, `tgl_lahir`, `jekel`, `angkatan`, `id_divisi`) VALUES
+(1, 'Afifahtul Hidayati Z', '2000-06-29', 'P', 10, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `divisi`
+--
+
+CREATE TABLE `divisi` (
+  `id` int(11) NOT NULL,
+  `nama_divisi` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `divisi`
+--
+
+INSERT INTO `divisi` (`id`, `nama_divisi`) VALUES
+(1, 'Programming'),
+(2, 'Multimedia'),
+(3, 'Networking');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `jenis`
 --
 
@@ -109,7 +150,9 @@ CREATE TABLE `mahasiswa` (
   `id` int(11) NOT NULL,
   `nim` varchar(18) NOT NULL,
   `nama` varchar(50) NOT NULL,
+  `tgl_lahir` varchar(11) NOT NULL,
   `jekel` char(1) NOT NULL,
+  `id_fakultas` int(11) NOT NULL,
   `id_prodi` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `alamat` varchar(100) NOT NULL
@@ -119,16 +162,8 @@ CREATE TABLE `mahasiswa` (
 -- Dumping data untuk tabel `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`id`, `nim`, `nama`, `jekel`, `id_prodi`, `email`, `alamat`) VALUES
-(1, '1911081021', 'Afifahtul Hidayati Z', 'P', 3, 'deazulva58@gmail.com', 'Pasaman'),
-(2, '1911082021', 'Srintika Yuni Kharisma', 'P', 3, 'srintikayk16@gmaol.com', 'Bukittinggi'),
-(3, '1911011010', 'Trisa Sarifatul Annisa', 'P', 1, 'trisaannisa12@gmail.com', 'Pekan Baru'),
-(4, '1811081001', 'Beni Fajri', 'L', 3, 'fajri29@gmail.com', 'Padang'),
-(5, '1811011012', 'Muhammad Fauzi', 'P', 1, 'munfauzi09@gmail.com', 'Batu Sangkar'),
-(6, '1911071014', 'Aldy Putra Tanjung', 'L', 2, 'putratanjung11@gmail.com', 'Pekan Baru'),
-(7, '1911081001', 'Virdapiliachani', 'P', 3, 'virdapiliachani01@gmail.com', 'Sijunjung'),
-(8, '1911081005', 'Rizky Anugrah Hasibuan', 'L', 3, 'rizkyanugrahhasibuan16@gmail.com', 'Medan'),
-(10, '1911082010', 'Luthfiyyah Riznisa', 'P', 3, 'luthfiyyah05@gmail.com', 'Padang');
+INSERT INTO `mahasiswa` (`id`, `nim`, `nama`, `tgl_lahir`, `jekel`, `id_fakultas`, `id_prodi`, `email`, `alamat`) VALUES
+(11, '1911081021', 'Afifahtul Hidayati Z', '2000-06-29', 'P', 1, 3, 'deazulva58@gmail.com', 'Batu Sangkar');
 
 -- --------------------------------------------------------
 
@@ -138,6 +173,7 @@ INSERT INTO `mahasiswa` (`id`, `nim`, `nama`, `jekel`, `id_prodi`, `email`, `ala
 
 CREATE TABLE `prodi` (
   `id` int(11) NOT NULL,
+  `id_fakultas` int(11) NOT NULL,
   `prodi` varchar(50) NOT NULL,
   `keterangan` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -146,10 +182,10 @@ CREATE TABLE `prodi` (
 -- Dumping data untuk tabel `prodi`
 --
 
-INSERT INTO `prodi` (`id`, `prodi`, `keterangan`) VALUES
-(1, 'MI', 'D3-Manajemen Informatika'),
-(2, 'TKOM', 'D3-Teknik Komputer'),
-(3, 'TRPL', 'D4-Teknologi Rekayasa Perangkat Lunak');
+INSERT INTO `prodi` (`id`, `id_fakultas`, `prodi`, `keterangan`) VALUES
+(1, 1, 'MI', 'D3-Manajemen Informatika'),
+(2, 1, 'TKOM', 'D3-Teknik Komputer'),
+(3, 1, 'TRPL', 'D4-Teknologi Rekayasa Perangkat Lunak');
 
 -- --------------------------------------------------------
 
@@ -195,6 +231,19 @@ ALTER TABLE `country`
   ADD PRIMARY KEY (`code`);
 
 --
+-- Indeks untuk tabel `cyber`
+--
+ALTER TABLE `cyber`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cyber_divisi` (`id_divisi`);
+
+--
+-- Indeks untuk tabel `divisi`
+--
+ALTER TABLE `divisi`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `jenis`
 --
 ALTER TABLE `jenis`
@@ -205,13 +254,15 @@ ALTER TABLE `jenis`
 --
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_prodi` (`id_prodi`);
+  ADD KEY `id_prodi` (`id_prodi`),
+  ADD KEY `id_fakultas` (`id_fakultas`);
 
 --
 -- Indeks untuk tabel `prodi`
 --
 ALTER TABLE `prodi`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_fakultas` (`id_fakultas`);
 
 --
 -- Indeks untuk tabel `supplier`
@@ -230,6 +281,18 @@ ALTER TABLE `barang`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT untuk tabel `cyber`
+--
+ALTER TABLE `cyber`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `divisi`
+--
+ALTER TABLE `divisi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `jenis`
 --
 ALTER TABLE `jenis`
@@ -239,7 +302,7 @@ ALTER TABLE `jenis`
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `prodi`
@@ -263,6 +326,12 @@ ALTER TABLE `supplier`
 ALTER TABLE `barang`
   ADD CONSTRAINT `barang_jenis` FOREIGN KEY (`id_jenis`) REFERENCES `jenis` (`id`),
   ADD CONSTRAINT `barang_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `cyber`
+--
+ALTER TABLE `cyber`
+  ADD CONSTRAINT `cyber_divisi` FOREIGN KEY (`id_divisi`) REFERENCES `divisi` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
